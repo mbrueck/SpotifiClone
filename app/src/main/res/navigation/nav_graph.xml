@@ -3,21 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_navigation_bar"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/btn_home">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/btn_home"
         android:name="com.example.musicplayeritunessample.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_btn_home_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/searchFragment"
+        android:id="@+id/btn_search"
         android:name="com.example.musicplayeritunessample.ui.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_btn_search_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/libaryFragment"
+        android:id="@+id/btn_Libary"
         android:name="com.example.musicplayeritunessample.ui.LibaryFragment"
         android:label="fragment_libary"
-        tools:layout="@layout/fragment_libary" />
+        tools:layout="@layout/fragment_libary" >
+        <action
+            android:id="@+id/action_btn_Libary_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicPlayerFragment"
+        android:name="com.example.musicplayeritunessample.ui.MusicPlayerFragment"
+        android:label="fragment_music_player"
+        tools:layout="@layout/fragment_music_player" />
 </navigation>

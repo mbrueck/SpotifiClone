@@ -5,16 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
-import com.example.musicplayeritunessample.R
+import com.example.musicplayeritunessample.Adapter.SearchAdapter
+import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.databinding.FragmentSearchBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
+
+ class SearchFragment : Fragment() {
 
     private lateinit var binding : FragmentSearchBinding
 
@@ -26,7 +22,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater,container,false)
         return binding.root
@@ -34,6 +30,10 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val repository = AppRepository().loadArtist()
+        val recView = binding.rvSearch
+
+        recView.adapter = SearchAdapter(repository)
 
         addObserver()
     }
