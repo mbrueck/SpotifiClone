@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.musicplayeritunessample.Adapter.SearchAdapter
 import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.databinding.FragmentSearchBinding
 
 
- class SearchFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private lateinit var binding : FragmentSearchBinding
+    private val viewModel: HomeViewModel by activityViewModels()
+    private lateinit var binding: FragmentSearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,22 +27,26 @@ import com.example.musicplayeritunessample.databinding.FragmentSearchBinding
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentSearchBinding.inflate(inflater,container,false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repository = AppRepository().loadArtist()
-        val recView = binding.rvSearch
-
-        recView.adapter = SearchAdapter(repository)
+            binding.viewModel = viewModel
 
         addObserver()
     }
 
 
-    private fun addObserver(){
+    private fun addObserver() {
+        viewModel.artistList.observe(viewLifecycleOwner, Observer {
+            binding.rvSearch.adapter = SearchAdapter(it)
+        })
+
+        viewModel.inputText.observe(viewLifecycleOwner, Observer {
+            viewModel.getResult(it)
+        })
 
 
     }

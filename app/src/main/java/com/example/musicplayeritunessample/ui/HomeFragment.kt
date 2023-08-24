@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import androidx.fragment.app.viewModels
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.musicplayeritunessample.Adapter.MainAdapter
+import com.example.musicplayeritunessample.Remote.TrackApi
 import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
 
 
@@ -32,7 +34,9 @@ class HomeFragment : Fragment() {
 
         val recView = binding.rvMainPage
 
-        recView.adapter = MainAdapter(viewModel.artistList,viewModel)
+        recView.adapter = MainAdapter(AppRepository(TrackApi).loadArtist(),viewModel)
+
+
 
     }
 

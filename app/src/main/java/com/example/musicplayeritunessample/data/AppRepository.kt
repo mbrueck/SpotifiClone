@@ -1,21 +1,36 @@
 package com.example.musicplayeritunessample.data.model
 
-import Results
+
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.musicplayeritunessample.R
+import com.example.musicplayeritunessample.Remote.TrackApi
 
-class AppRepository {
+class AppRepository(private val api : TrackApi) {
 
-    fun loadArtist(): MutableList<Results>{
+    fun loadArtist(): MutableList<Track>{
 
         return mutableListOf(
-            Results(artistName = "Kool Savas", trackName = "Beste Tag meines Lebens", previewUrl = "https//", artwork = R.drawable._2_kool_savas_beste_tag_meines_lebens, trackTimeMillis = 0, kind = ""),
-            Results(artistName = "Sido", trackName = "Ich und miene Maske", previewUrl = "https//", artwork = R.drawable._5_sido_maske, trackTimeMillis = 0, kind = ""),
-            Results(artistName = "haiyti", trackName = "Akku", previewUrl = "https//", artwork = R.drawable._0_haiyti_toxic_ep, trackTimeMillis = 0, kind = ""),
-            Results(artistName = "Materia", trackName = "Lila Wolken", previewUrl = "https//", artwork = R.drawable._0_marteria_zum_glueck_in_die_zukunft, trackTimeMillis = 0, kind = ""),
-            Results(artistName = "KIZ", trackName = "Hurensohn", previewUrl = "https//", artwork = R.drawable._9_k_i_z_hahnenkampf, trackTimeMillis = 0, kind = ""),
-            Results(artistName = "Audio88 & Yassin", trackName = "Täter oder Opfer", previewUrl = "https//", artwork = R.drawable.audio_88_yassin_normaler_samt, trackTimeMillis = 0, kind = ""),
+            Track(artistName = "Kool Savas", trackName = "Beste Tag meines Lebens", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
+            Track(artistName = "Sido", trackName = "Ich und miene Maske", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
+            Track(artistName = "haiyti", trackName = "Akku", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
+            Track(artistName = "Materia", trackName = "Lila Wolken", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
+            Track(artistName = "KIZ", trackName = "Hurensohn", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
+            Track(artistName = "Audio88 & Yassin", trackName = "Täter oder Opfer", previewUrl = "https//", artwork = "", trackTimeMillis = 0, kind = ""),
 
             )
+    }
+    private val _track = MutableLiveData<List<Track>>()
+    val track : LiveData<List<Track>>
+        get() = _track
+    suspend fun getTrack(term:String){
+        try {
+            _track.value = api.retrofitService.getTrack(term).results
+
+        } catch (e:Exception){
+            Log.e("Repo","ERROR, LOADING DATA FAILED : $e")
+        }
     }
 
 
