@@ -1,10 +1,10 @@
-package com.example.musicplayeritunessample.Adapter
+package com.example.musicplayeritunessample.adapter
 
-import Results
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -18,7 +18,7 @@ import com.example.musicplayeritunessample.ui.HomeViewModel
 
 class MainAdapter(
     val dataSet: List<Track>,
-    val viewModel : HomeViewModel
+    val viewModel: HomeViewModel
 ) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     inner class MainViewHolder(val binding: ListItemMainBinding) : ViewHolder(binding.root)
@@ -38,7 +38,7 @@ class MainAdapter(
         val imgUri = artist.artwork.toUri().buildUpon().scheme("https").build()
 
         holder.binding.tvArtistName.text = artist.artistName
-        holder.binding.ivImage.load(imgUri){
+        holder.binding.ivImageMain.load(imgUri){
 
             error(R.drawable.ic_broken_image)
             transformations(RoundedCornersTransformation(10f))

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.musicplayeritunessample.Adapter.SearchAdapter
-import com.example.musicplayeritunessample.data.model.AppRepository
+import com.example.musicplayeritunessample.adapter.SearchAdapter
 import com.example.musicplayeritunessample.databinding.FragmentSearchBinding
 
 
@@ -36,17 +35,20 @@ class SearchFragment : Fragment() {
             binding.viewModel = viewModel
 
         addObserver()
+
+
     }
 
 
     private fun addObserver() {
         viewModel.artistList.observe(viewLifecycleOwner, Observer {
-            binding.rvSearch.adapter = SearchAdapter(it)
+            binding.rvSearch.adapter = SearchAdapter(it,viewModel)
         })
 
         viewModel.inputText.observe(viewLifecycleOwner, Observer {
             viewModel.getResult(it)
         })
+
 
 
     }

@@ -21,12 +21,25 @@ private val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFact
 
 interface TrackApiService{
     @GET("search?media=music")
-    suspend fun getTrack(
+    suspend fun getSearch(
         @Query("term") term:String,
-        @Query("entity") entity:String ="track",
     ):Results
+
+    @GET("search?media=music")
+    suspend fun getTrackList(
+        @Query("term") term:String,
+        @Query("genreId") genreId: String
+
+    ) : Results
+
 }
 
 object TrackApi{
     val retrofitService: TrackApiService by lazy { retrofit.create(TrackApiService::class.java) }
 }
+
+
+
+
+
+

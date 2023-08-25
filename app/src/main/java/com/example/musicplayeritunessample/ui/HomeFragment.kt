@@ -3,14 +3,11 @@ package com.example.musicplayeritunessample.ui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import androidx.fragment.app.viewModels
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.musicplayeritunessample.Adapter.MainAdapter
-import com.example.musicplayeritunessample.Remote.TrackApi
-import com.example.musicplayeritunessample.data.model.AppRepository
+import com.example.musicplayeritunessample.adapter.MainAdapter
 import com.example.musicplayeritunessample.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -32,14 +29,21 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val recView = binding.rvMainPage
-
-        recView.adapter = MainAdapter(AppRepository(TrackApi).loadArtist(),viewModel)
-
-
-
+        viewModel.getTrackList()
+        addObserver()
     }
 
+    fun addObserver() {
+        viewModel.mainSideList.observe(viewLifecycleOwner, Observer {
+            val recView = binding.rvMainPage
+            recView.adapter = MainAdapter(it, viewModel)
+
+        })
+
+        viewModel.genre.observe(viewLifecycleOwner, Observer {
+            binding.tvGenreMain.setText(it)
+        })
+    }
 
 
 }

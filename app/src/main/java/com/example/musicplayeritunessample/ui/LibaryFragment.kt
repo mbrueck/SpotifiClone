@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.example.musicplayeritunessample.Adapter.SearchAdapter
-import com.example.musicplayeritunessample.data.model.AppRepository
+import com.example.musicplayeritunessample.adapter.SearchAdapter
 import com.example.musicplayeritunessample.databinding.FragmentLibaryBinding
 
 class LibaryFragment : Fragment() {
@@ -33,7 +31,7 @@ class LibaryFragment : Fragment() {
 
     private fun addObserver() {
     viewModel.likedSongs.observe(viewLifecycleOwner, Observer {
-        binding.rvLibary.adapter = SearchAdapter(it)
+        binding.rvLibary.adapter = SearchAdapter(it,viewModel)
     })
 
     }
