@@ -66,5 +66,5 @@ dependencies {
     implementation ("com.squareup.moshi:moshi-kotlin:1.15.0")
 
     // Coil
-    implementation ("io.coil-kt:coil:2.4.0")
+    implementation ("io.coil-kt:coil:1.4.0")
 }
