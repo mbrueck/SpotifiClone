@@ -43,20 +43,19 @@ class MusicPlayerFragment : Fragment() {
             binding.btnLike.setBackgroundResource(R.drawable.baseline_thumb_up_50)
             binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_24_red)
         }
+
+
     }
 
     private fun addObserver() {
         viewModel.currentArtist.observe(viewLifecycleOwner, Observer {
-            val imgUri = it.artwork.toUri().buildUpon().scheme("https").build()
             Log.d("obServer","Error : $it $viewModel")
             binding.tvArtistName.text = it.artistName
             binding.tvSongname.text = it.trackName
-            binding.ivImage.load(imgUri){
+            binding.ivImage.load(it.artwork){
                 error(R.drawable.ic_broken_image)
                 transformations(RoundedCornersTransformation(10f))
             }
-
         })
-
     }
 }
