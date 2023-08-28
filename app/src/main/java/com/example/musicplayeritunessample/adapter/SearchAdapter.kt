@@ -1,5 +1,6 @@
 package com.example.musicplayeritunessample.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
@@ -25,8 +26,9 @@ class SearchAdapter(
 ) : RecyclerView.Adapter<SearchAdapter.ListItemViewHolder>() {
     inner class ListItemViewHolder(val binding: ListItemTrackBinding) : ViewHolder(binding.root)
 
+    private lateinit var binding: ListItemTrackBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
-        val binding =
+        binding =
             ListItemTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListItemViewHolder(binding)
 
@@ -37,15 +39,19 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
+
         val artist = dataSet[position]
-        val imgUri = artist.previewUrl.toUri().buildUpon().scheme("https").build()
+        viewModel.open(artist)
+        val imgUri = artist.artwork.toUri().buildUpon().scheme("https").build()
 
         holder.binding.tvArtistName.text = artist.artistName
         holder.binding.tvAlbumName.text = artist.trackName
 
         holder.binding.ivImageSearch.load(imgUri) {
+
             error(R.drawable.ic_broken_image)
             transformations(RoundedCornersTransformation(10f))
+            Log.d("img", "Error : $imgUri")
         }
 
         holder.binding.mcItem.setOnClickListener {

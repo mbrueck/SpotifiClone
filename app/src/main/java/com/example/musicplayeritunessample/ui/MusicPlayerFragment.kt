@@ -34,10 +34,14 @@ class MusicPlayerFragment : Fragment() {
         addObserver()
         binding.btnLike.setOnClickListener {
                 viewModel.likedSong()
+            binding.btnLike.setBackgroundResource(R.drawable.baseline_thumb_up_24_green)
+            binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_50)
         }
 
         binding.btnDislike.setOnClickListener {
             viewModel.disliked()
+            binding.btnLike.setBackgroundResource(R.drawable.baseline_thumb_up_50)
+            binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_24_red)
         }
     }
 

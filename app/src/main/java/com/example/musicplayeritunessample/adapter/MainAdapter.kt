@@ -20,25 +20,26 @@ class MainAdapter(
     val dataSet: List<Track>,
     val viewModel: HomeViewModel
 ) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+    private lateinit var binding: ListItemMainBinding
 
     inner class MainViewHolder(val binding: ListItemMainBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val binding = ListItemMainBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        binding = ListItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         Log.d("ViewBinding", "Error: $binding")
         return MainViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-       return dataSet.size
+        return dataSet.size
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-       val artist = dataSet[position]
+        val artist = dataSet[position]
         val imgUri = artist.artwork.toUri().buildUpon().scheme("https").build()
 
         holder.binding.tvArtistName.text = artist.artistName
-        holder.binding.ivImageMain.load(imgUri){
+        holder.binding.ivImageMain.load(imgUri) {
 
             error(R.drawable.ic_broken_image)
             transformations(RoundedCornersTransformation(10f))
@@ -47,7 +48,7 @@ class MainAdapter(
 
         holder.binding.mcMainCard.setOnClickListener {
             viewModel.open(artist)
-            Log.d("Adapter","$artist  $viewModel")
+            Log.d("Adapter", "$artist  $viewModel")
 
             val navController = holder.itemView.findNavController()
             navController.navigate(
