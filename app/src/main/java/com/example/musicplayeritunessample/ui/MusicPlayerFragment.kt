@@ -33,7 +33,7 @@ class MusicPlayerFragment : Fragment() {
 
         addObserver()
         binding.btnLike.setOnClickListener {
-                viewModel.likedSong()
+            viewModel.likedSong()
             binding.btnLike.setBackgroundResource(R.drawable.baseline_thumb_up_24_green)
             binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_50)
         }
@@ -44,18 +44,28 @@ class MusicPlayerFragment : Fragment() {
             binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_24_red)
         }
 
-
     }
 
     private fun addObserver() {
         viewModel.currentArtist.observe(viewLifecycleOwner, Observer {
-            Log.d("obServer","Error : $it $viewModel")
+            Log.d("obServer", "Error : $it $viewModel")
             binding.tvArtistName.text = it.artistName
             binding.tvSongname.text = it.trackName
-            binding.ivImage.load(it.artwork){
+            binding.ivImage.load(it.artwork) {
                 error(R.drawable.ic_broken_image)
                 transformations(RoundedCornersTransformation(10f))
             }
+
+            binding.btnPlay.setOnClickListener {
+                if (viewModel.mediaPlayer.isPlaying) {
+                    viewModel.breackSong()
+                    binding.btnPlay.setBackgroundResource(R.drawable.play_button)
+                } else {
+                    viewModel.playSong()
+                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
+                }
+            }
         })
+
     }
 }

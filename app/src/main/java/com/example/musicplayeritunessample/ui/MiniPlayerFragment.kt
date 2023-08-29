@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import coil.load
+import com.example.musicplayeritunessample.R
 import com.example.musicplayeritunessample.databinding.FragmentMiniPlayerBinding
 import com.example.musicplayeritunessample.databinding.FragmentMusicPlayerBinding
 import kotlinx.coroutines.supervisorScope
@@ -16,10 +17,7 @@ import kotlinx.coroutines.supervisorScope
 class MiniPlayerFragment : Fragment() {
     private lateinit var binding: FragmentMiniPlayerBinding
     private val viewModel: HomeViewModel by activityViewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +34,7 @@ class MiniPlayerFragment : Fragment() {
     }
 
     private fun addObserver() {
+
         viewModel.playerStatus.observe(viewLifecycleOwner, Observer {
             when (it) {
                 MediaStatus.LOADING -> binding.miniPlayer.visibility = View.GONE
@@ -51,10 +50,22 @@ class MiniPlayerFragment : Fragment() {
             binding.tvSongname.text = it.trackName
             binding.ivPlayerplayer.load(it.artwork)
             binding.progressBar.max = it.trackTimeSeconds
+
+            binding.btnPlay.setOnClickListener {
+                if (viewModel.mediaPlayer.isPlaying) {
+                    binding.btnPlay.setBackgroundResource(R.drawable.play_button)
+                    viewModel.breackSong()
+
+                } else {
+                    viewModel.playSong()
+                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
+                }
+            }
         })
 
         viewModel.songTime.observe(viewLifecycleOwner, Observer {
             binding.progressBar.progress = it / 1000
         })
+
     }
 }

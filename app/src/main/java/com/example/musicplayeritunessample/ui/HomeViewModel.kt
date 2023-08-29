@@ -11,7 +11,6 @@ import com.example.musicplayeritunessample.Remote.TrackApi
 import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.data.model.Track
 import kotlinx.coroutines.launch
-import java.util.logging.Handler
 
 enum class MediaStatus { LOADING, READY, PLAYING, FINISHED }
 class HomeViewModel : ViewModel() {
@@ -141,7 +140,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun playSong() {
-        mediaPlayer.reset()
+//        mediaPlayer.reset()
         _selectedSong.value = _currentArtist.value
         if (_playerStatus.value == MediaStatus.PLAYING) {
             mediaPlayer.reset()
@@ -153,4 +152,7 @@ class HomeViewModel : ViewModel() {
         mediaPlayer.prepareAsync()
     }
 
+    fun breackSong() {
+        mediaPlayer.pause()
+    }
 }
