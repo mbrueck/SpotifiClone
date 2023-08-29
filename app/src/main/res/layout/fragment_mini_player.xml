@@ -14,12 +14,12 @@
         android:backgroundTint="@color/wine_red"
         android:visibility="gone"
         app:cardCornerRadius="15dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/black"
         app:cardPreventCornerOverlap="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout

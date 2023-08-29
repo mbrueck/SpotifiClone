@@ -8,7 +8,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicplayeritunessample.databinding.ActivityMainBinding
-import com.example.musicplayeritunessample.ui.HomeViewModel
 
 class MainActivity : AppCompatActivity() {
 
