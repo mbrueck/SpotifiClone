@@ -11,10 +11,11 @@ import androidx.lifecycle.Observer
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.musicplayeritunessample.R
+import com.example.musicplayeritunessample.data.model.Track
 import com.example.musicplayeritunessample.databinding.FragmentMusicPlayerBinding
 
 
-class MusicPlayerFragment : Fragment() {
+class MusicPlayerFragment (): Fragment() {
 
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentMusicPlayerBinding
@@ -27,7 +28,7 @@ class MusicPlayerFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?,) {
         super.onViewCreated(view, savedInstanceState)
 
         addObserver()
@@ -43,6 +44,10 @@ class MusicPlayerFragment : Fragment() {
             binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_24_red)
         }
 
+        binding.btnPlay.setOnClickListener {
+            viewModel.playSong()
+        }
+
     }
 
     private fun addObserver() {
@@ -54,17 +59,28 @@ class MusicPlayerFragment : Fragment() {
                 error(R.drawable.ic_broken_image)
                 transformations(RoundedCornersTransformation(10f))
             }
+        })
+        viewModel.playerStatus.observe(viewLifecycleOwner, Observer {
+            when (it) {
 
-            binding.btnPlay.setOnClickListener {
-                if (viewModel.mediaPlayer.isPlaying) {
-                    viewModel.breackSong()
+                MediaStatus.READY -> {
                     binding.btnPlay.setBackgroundResource(R.drawable.play_button)
-                } else {
-                    viewModel.playSong()
-                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
+                    binding.btnPlay.setOnClickListener {
+                        viewModel.playSong()
+                    }
                 }
+
+                MediaStatus.PLAYING -> {
+
+                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
+                    binding.btnPlay.setOnClickListener {
+                        viewModel.breakSong()
+                    }
+                }
+
+                else -> {}
             }
         })
-
     }
+
 }

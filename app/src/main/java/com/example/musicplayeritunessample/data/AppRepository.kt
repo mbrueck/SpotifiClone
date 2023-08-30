@@ -5,8 +5,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musicplayeritunessample.Remote.TrackApi
+import com.example.musicplayeritunessample.data.local.SongDatabase
 
-class AppRepository(private val api: TrackApi) {
+val TAG = "AppRepository"
+
+class AppRepository(private val api: TrackApi, private val databse : SongDatabase) {
 
     fun loadArtist(): MutableList<Track> {
 
@@ -90,4 +93,28 @@ class AppRepository(private val api: TrackApi) {
             Log.e("Repo", "ERROR, LOADING DATA FAILED : $e")
         }
     }
+
+//    LikedSongList
+
+    val likedSongList:LiveData<List<Track>> = databse.songDatabaseDao.getAll()
+
+    suspend fun insert(track:Track){
+        try {
+            databse.songDatabaseDao.insert(track)
+
+        } catch (e:Exception){
+            Log.d(TAG,"Fehler beim einfügen in die Database :$e")
+        }
+    }
+
+    suspend fun delete(key: Long){
+        try {
+            databse.songDatabaseDao.deleteById(key)
+        } catch (e:Exception){
+            Log.d(TAG,"Fehler beim entfernen der Daten aus der Database :$e")
+
+        }
+    }
+
+
 }

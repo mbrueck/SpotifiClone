@@ -1,23 +1,28 @@
 package com.example.musicplayeritunessample.ui
 
+import android.app.Application
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnPreparedListener
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayeritunessample.Remote.TrackApi
+import com.example.musicplayeritunessample.data.local.SongDatabase
+import com.example.musicplayeritunessample.data.local.getDatabase
 import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.data.model.Track
 import kotlinx.coroutines.launch
 
 enum class MediaStatus { LOADING, READY, PLAYING, FINISHED }
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application, ) :
+    AndroidViewModel(application) {
 
+    private val database = getDatabase(application)
 
     //
-    val repository = AppRepository(TrackApi)
+    val repository = AppRepository(TrackApi, database)
     val artistList = repository.search
     val mainSideList = repository.trackList
     var mediaPlayer = MediaPlayer()
@@ -42,8 +47,8 @@ class HomeViewModel : ViewModel() {
 
     //    Live Data zur gelikten Songs
     private var _likedSongs = MutableLiveData<MutableList<Track>>(mutableListOf())
-    val likedSongs: LiveData<MutableList<Track>>
-        get() = _likedSongs
+    val likedSongs = repository.likedSongList
+
 
     //  Live Data zum Laden der Daten im PLayer bereich
     private var _currentArtist = MutableLiveData<Track>()
@@ -61,28 +66,14 @@ class HomeViewModel : ViewModel() {
     }
 
     fun likedSong() {
-        try {
-            if (_currentArtist.value?.liked == true) {
-                return
-            } else {
-                _currentArtist.value?.liked = true
-                _likedSongs.value?.add(_currentArtist.value!!)
-            }
-        } catch (e: Exception) {
-            Log.e("Like Button", "ERROR, LOADING DATA FAILED : $e")
+        viewModelScope.launch {
+            repository.insert(_currentArtist.value!!)
         }
     }
 
     fun disliked() {
-        try {
-            if (_currentArtist.value?.liked == false) {
-                return
-            } else {
-                _currentArtist.value?.liked = false
-                _likedSongs.value?.remove(_currentArtist.value!!)
-            }
-        } catch (e: Exception) {
-            Log.e("Dislike Button", "ERROR, LOADING DATA FAILED : $e")
+        viewModelScope.launch {
+            _currentArtist.value?.let { repository.delete(it.id) }
         }
     }
 
@@ -140,10 +131,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun playSong() {
-        mediaPlayer.reset()
+//        mediaPlayer.reset()
         _selectedSong.value = _currentArtist.value
         if (_playerStatus.value == MediaStatus.PLAYING) {
-//            mediaPlayer.reset()
+            mediaPlayer.reset()
             mediaPlayer = MediaPlayer()
         }
         setupMediaPlayer()
@@ -152,7 +143,12 @@ class HomeViewModel : ViewModel() {
         mediaPlayer.prepareAsync()
     }
 
-    fun breackSong() {
-        mediaPlayer.pause()
+    fun breakSong() {
+        if (_playerStatus.value == MediaStatus.PLAYING) {
+            mediaPlayer.pause()
+            _playerStatus.value = MediaStatus.READY
+        }
     }
+
+
 }

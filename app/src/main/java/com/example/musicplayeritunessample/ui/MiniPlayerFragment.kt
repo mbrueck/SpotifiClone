@@ -28,6 +28,7 @@ class MiniPlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addObserver()
+
     }
 
     private fun addObserver() {
@@ -35,11 +36,24 @@ class MiniPlayerFragment : Fragment() {
         viewModel.playerStatus.observe(viewLifecycleOwner, Observer {
             when (it) {
                 MediaStatus.LOADING -> binding.miniPlayer.visibility = View.GONE
-                MediaStatus.READY -> binding.miniPlayer.visibility = View.VISIBLE
-                MediaStatus.PLAYING -> binding.miniPlayer.visibility = View.VISIBLE
+                MediaStatus.READY -> {
+                    binding.miniPlayer.visibility = View.VISIBLE
+                    binding.btnPlay.setBackgroundResource(R.drawable.play_button)
+                    binding.btnPlay.setOnClickListener {
+                        viewModel.playSong()
+                    }
+
+                }
+
+                MediaStatus.PLAYING ->{
+                    binding.miniPlayer.visibility = View.VISIBLE
+                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
+                    binding.btnPlay.setOnClickListener {
+                        viewModel.breakSong()
+                    }
+                }
                 MediaStatus.FINISHED -> binding.miniPlayer.visibility = View.GONE
             }
-
         })
 
         viewModel.currentArtist.observe(viewLifecycleOwner, Observer {
@@ -48,16 +62,7 @@ class MiniPlayerFragment : Fragment() {
             binding.ivPlayerplayer.load(it.artwork)
             binding.progressBar.max = it.trackTimeSeconds
 
-            binding.btnPlay.setOnClickListener {
-                if (viewModel.mediaPlayer.isPlaying) {
-                    binding.btnPlay.setBackgroundResource(R.drawable.play_button)
-                    viewModel.breackSong()
 
-                } else {
-                    viewModel.playSong()
-                    binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
-                }
-            }
         })
 
         viewModel.songTime.observe(viewLifecycleOwner, Observer {

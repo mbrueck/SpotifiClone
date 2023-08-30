@@ -1,8 +1,12 @@
 package com.example.musicplayeritunessample.data.model
 
-import com.squareup.moshi.Json
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
+@Entity
 data class Track(
+    @PrimaryKey(autoGenerate = true) val id :Long = 0,
     @Json(name = "artistName") val artistName: String,
     @Json(name = "trackName") val trackName: String = "",
     @Json(name = "previewUrl") val previewUrl: String,
@@ -10,7 +14,7 @@ data class Track(
     @Json(name = "trackTimeMillis") val trackTimeMillis: Int = 0,
     @Json(name = "kind") val kind: String,
 ) {
-    val trackTimeSeconds = trackTimeMillis / 1000
+    var trackTimeSeconds = trackTimeMillis / 1000
     var liked: Boolean = false
     var disliked: Boolean = false
 }
