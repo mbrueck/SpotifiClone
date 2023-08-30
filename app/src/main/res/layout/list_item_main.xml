@@ -6,8 +6,8 @@
         android:id="@+id/mc_main_card"
         android:layout_width="190dp"
         android:layout_height="200dp"
+        android:layout_margin="8dp"
         android:backgroundTint="@color/grey"
-        android:layout_margin="2dp"
         app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="false"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,9 +30,9 @@
 
                 <ImageView
                     android:id="@+id/iv_image_main"
-                    android:scaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     android:src="@drawable/das_neue_album" />
 
             </com.google.android.material.card.MaterialCardView>

@@ -1,11 +1,11 @@
 package com.example.musicplayeritunessample.ui
 
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnPreparedListener
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.media.MediaPlayer
-import android.media.MediaPlayer.OnPreparedListener
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayeritunessample.Remote.TrackApi
 import com.example.musicplayeritunessample.data.model.AppRepository
@@ -140,10 +140,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun playSong() {
-//        mediaPlayer.reset()
+        mediaPlayer.reset()
         _selectedSong.value = _currentArtist.value
         if (_playerStatus.value == MediaStatus.PLAYING) {
-            mediaPlayer.reset()
+//            mediaPlayer.reset()
             mediaPlayer = MediaPlayer()
         }
         setupMediaPlayer()

@@ -30,9 +30,9 @@ class LibaryFragment : Fragment() {
     }
 
     private fun addObserver() {
-    viewModel.likedSongs.observe(viewLifecycleOwner, Observer {
-        binding.rvLibary.adapter = SearchAdapter(it,viewModel)
-    })
+        viewModel.likedSongs.observe(viewLifecycleOwner, Observer {
+            binding.rvLibary.adapter = SearchAdapter(it, viewModel)
+        })
 
     }
 }

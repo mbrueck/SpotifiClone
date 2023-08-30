@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -12,10 +11,8 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.musicplayeritunessample.R
 import com.example.musicplayeritunessample.data.model.Track
-
 import com.example.musicplayeritunessample.databinding.ListItemTrackBinding
 import com.example.musicplayeritunessample.ui.HomeViewModel
-import com.example.musicplayeritunessample.ui.LibaryFragment
 import com.example.musicplayeritunessample.ui.LibaryFragmentDirections
 import com.example.musicplayeritunessample.ui.SearchFragmentDirections
 

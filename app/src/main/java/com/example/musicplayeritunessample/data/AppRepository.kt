@@ -1,11 +1,9 @@
 package com.example.musicplayeritunessample.data.model
 
 
-import Results
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musicplayeritunessample.R
 import com.example.musicplayeritunessample.Remote.TrackApi
 
 class AppRepository(private val api: TrackApi) {
@@ -85,9 +83,9 @@ class AppRepository(private val api: TrackApi) {
     val trackList: LiveData<List<Track>>
         get() = _trackList
 
-    suspend fun getTrackList(term: String, id:String) {
+    suspend fun getTrackList(term: String, id: String) {
         try {
-            _trackList.value = api.retrofitService.getTrackList(term,id).results
+            _trackList.value = api.retrofitService.getTrackList(term, id).results
         } catch (e: Exception) {
             Log.e("Repo", "ERROR, LOADING DATA FAILED : $e")
         }

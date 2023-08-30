@@ -2,7 +2,7 @@ package com.example.musicplayeritunessample.data.model
 
 import com.squareup.moshi.Json
 
-data class Track (
+data class Track(
     @Json(name = "artistName") val artistName: String,
     @Json(name = "trackName") val trackName: String = "",
     @Json(name = "previewUrl") val previewUrl: String,

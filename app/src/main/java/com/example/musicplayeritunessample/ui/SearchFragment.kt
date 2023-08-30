@@ -32,7 +32,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            binding.viewModel = viewModel
+        binding.viewModel = viewModel
 
         addObserver()
 
@@ -42,13 +42,12 @@ class SearchFragment : Fragment() {
 
     private fun addObserver() {
         viewModel.artistList.observe(viewLifecycleOwner, Observer {
-            binding.rvSearch.adapter = SearchAdapter(it,viewModel)
+            binding.rvSearch.adapter = SearchAdapter(it, viewModel)
         })
 
         viewModel.inputText.observe(viewLifecycleOwner, Observer {
             viewModel.getResult(it)
         })
-
 
 
     }

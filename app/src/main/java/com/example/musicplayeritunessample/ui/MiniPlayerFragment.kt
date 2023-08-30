@@ -1,18 +1,15 @@
 package com.example.musicplayeritunessample.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import coil.load
 import com.example.musicplayeritunessample.R
 import com.example.musicplayeritunessample.databinding.FragmentMiniPlayerBinding
-import com.example.musicplayeritunessample.databinding.FragmentMusicPlayerBinding
-import kotlinx.coroutines.supervisorScope
 
 class MiniPlayerFragment : Fragment() {
     private lateinit var binding: FragmentMiniPlayerBinding
