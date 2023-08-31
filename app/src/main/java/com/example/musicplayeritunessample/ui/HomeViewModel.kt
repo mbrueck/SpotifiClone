@@ -130,10 +130,10 @@ class HomeViewModel(application: Application) :
     }
 
     fun playSong() {
-//        mediaPlayer.reset()
+        mediaPlayer.reset()
         _selectedSong.value = _currentArtist.value
         if (_playerStatus.value == MediaStatus.PLAYING) {
-            mediaPlayer.reset()
+//            mediaPlayer.reset()
             mediaPlayer = MediaPlayer()
         }
         setupMediaPlayer()
@@ -148,6 +148,4 @@ class HomeViewModel(application: Application) :
             _playerStatus.value = MediaStatus.READY
         }
     }
-
-
 }

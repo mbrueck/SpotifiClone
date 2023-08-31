@@ -81,7 +81,6 @@ class AppRepository(private val api: TrackApi, private val databse: SongDatabase
     }
 
     //  List for Mainpage
-
     private val _trackList = MutableLiveData<List<Track>>()
     val trackList: LiveData<List<Track>>
         get() = _trackList
@@ -94,8 +93,7 @@ class AppRepository(private val api: TrackApi, private val databse: SongDatabase
         }
     }
 
-//    LikedSongList
-
+    // LikedSongList für Die LocalData List
     val likedSongList: LiveData<List<Track>> = databse.songDatabaseDao.getAll()
 
     suspend fun insert(track: Track) {
@@ -106,7 +104,6 @@ class AppRepository(private val api: TrackApi, private val databse: SongDatabase
             Log.d(TAG, "Fehler beim einfügen in die Database :$e")
         }
     }
-
     suspend fun delete(key: Long) {
         try {
             databse.songDatabaseDao.deleteById(key)
@@ -115,6 +112,4 @@ class AppRepository(private val api: TrackApi, private val databse: SongDatabase
 
         }
     }
-
-
 }
