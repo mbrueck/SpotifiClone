@@ -45,13 +45,14 @@ class MiniPlayerFragment : Fragment() {
 
                 }
 
-                MediaStatus.PLAYING ->{
+                MediaStatus.PLAYING -> {
                     binding.miniPlayer.visibility = View.VISIBLE
                     binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
                     binding.btnPlay.setOnClickListener {
                         viewModel.breakSong()
                     }
                 }
+
                 MediaStatus.FINISHED -> binding.miniPlayer.visibility = View.GONE
             }
         })

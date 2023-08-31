@@ -9,14 +9,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayeritunessample.Remote.TrackApi
-import com.example.musicplayeritunessample.data.local.SongDatabase
 import com.example.musicplayeritunessample.data.local.getDatabase
 import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.data.model.Track
 import kotlinx.coroutines.launch
 
 enum class MediaStatus { LOADING, READY, PLAYING, FINISHED }
-class HomeViewModel(application: Application, ) :
+class HomeViewModel(application: Application) :
     AndroidViewModel(application) {
 
     private val database = getDatabase(application)

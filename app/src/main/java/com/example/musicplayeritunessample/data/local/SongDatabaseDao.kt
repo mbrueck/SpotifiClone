@@ -14,11 +14,11 @@ interface SongDatabaseDao {
     suspend fun insert(result: Track)
 
     @Update
-    suspend fun update(result:Track)
+    suspend fun update(result: Track)
 
     @Query("SELECT*FROM Track")
-    fun getAll():LiveData<List<Track>>
+    fun getAll(): LiveData<List<Track>>
 
     @Query("DELETE FROM Track WHERE id = :key")
-    suspend fun deleteById(key : Long)
+    suspend fun deleteById(key: Long)
 }

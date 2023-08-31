@@ -9,7 +9,7 @@ import com.example.musicplayeritunessample.data.local.SongDatabase
 
 val TAG = "AppRepository"
 
-class AppRepository(private val api: TrackApi, private val databse : SongDatabase) {
+class AppRepository(private val api: TrackApi, private val databse: SongDatabase) {
 
     fun loadArtist(): MutableList<Track> {
 
@@ -96,22 +96,22 @@ class AppRepository(private val api: TrackApi, private val databse : SongDatabas
 
 //    LikedSongList
 
-    val likedSongList:LiveData<List<Track>> = databse.songDatabaseDao.getAll()
+    val likedSongList: LiveData<List<Track>> = databse.songDatabaseDao.getAll()
 
-    suspend fun insert(track:Track){
+    suspend fun insert(track: Track) {
         try {
             databse.songDatabaseDao.insert(track)
 
-        } catch (e:Exception){
-            Log.d(TAG,"Fehler beim einfügen in die Database :$e")
+        } catch (e: Exception) {
+            Log.d(TAG, "Fehler beim einfügen in die Database :$e")
         }
     }
 
-    suspend fun delete(key: Long){
+    suspend fun delete(key: Long) {
         try {
             databse.songDatabaseDao.deleteById(key)
-        } catch (e:Exception){
-            Log.d(TAG,"Fehler beim entfernen der Daten aus der Database :$e")
+        } catch (e: Exception) {
+            Log.d(TAG, "Fehler beim entfernen der Daten aus der Database :$e")
 
         }
     }

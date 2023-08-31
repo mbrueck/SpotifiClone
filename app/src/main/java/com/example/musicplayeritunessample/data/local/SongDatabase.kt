@@ -7,16 +7,16 @@ import androidx.room.RoomDatabase
 
 import com.example.musicplayeritunessample.data.model.Track
 
-@Database(entities = [Track::class],version = 1)
-abstract class SongDatabase : RoomDatabase(){
-    
-    abstract val songDatabaseDao : SongDatabaseDao
+@Database(entities = [Track::class], version = 1)
+abstract class SongDatabase : RoomDatabase() {
+
+    abstract val songDatabaseDao: SongDatabaseDao
 }
 
 
-private lateinit var INSTANCE : SongDatabase
+private lateinit var INSTANCE: SongDatabase
 
-fun getDatabase(context : Context):SongDatabase {
+fun getDatabase(context: Context): SongDatabase {
     synchronized(SongDatabase::class) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(

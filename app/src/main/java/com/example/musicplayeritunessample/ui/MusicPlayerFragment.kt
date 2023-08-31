@@ -11,11 +11,10 @@ import androidx.lifecycle.Observer
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.musicplayeritunessample.R
-import com.example.musicplayeritunessample.data.model.Track
 import com.example.musicplayeritunessample.databinding.FragmentMusicPlayerBinding
 
 
-class MusicPlayerFragment (): Fragment() {
+class MusicPlayerFragment() : Fragment() {
 
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentMusicPlayerBinding
@@ -28,7 +27,7 @@ class MusicPlayerFragment (): Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?,) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         addObserver()
