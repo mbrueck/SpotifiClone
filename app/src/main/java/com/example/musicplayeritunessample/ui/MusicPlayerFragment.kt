@@ -13,6 +13,7 @@ import coil.transform.RoundedCornersTransformation
 import com.example.musicplayeritunessample.R
 import com.example.musicplayeritunessample.databinding.FragmentMusicPlayerBinding
 
+private val TAG = "MUSICPLAYERFRAGMENT"
 
 class MusicPlayerFragment() : Fragment() {
 
@@ -42,11 +43,9 @@ class MusicPlayerFragment() : Fragment() {
             binding.btnLike.setBackgroundResource(R.drawable.baseline_thumb_up_50)
             binding.btnDislike.setBackgroundResource(R.drawable.baseline_thumb_down_24_red)
         }
-
         binding.btnPlay.setOnClickListener {
-            viewModel.playSong()
+            viewModel.startNewSong()
         }
-
     }
 
     private fun addObserver() {
@@ -64,19 +63,13 @@ class MusicPlayerFragment() : Fragment() {
 
                 MediaStatus.READY -> {
                     binding.btnPlay.setBackgroundResource(R.drawable.play_button)
-                    binding.btnPlay.setOnClickListener {
-                        viewModel.playSong()
-                    }
                 }
-
                 MediaStatus.PLAYING -> {
-
                     binding.btnPlay.setBackgroundResource(R.drawable.breack_button)
                     binding.btnPlay.setOnClickListener {
-                        viewModel.breakSong()
+                        viewModel.playOrPauseSong()
                     }
                 }
-
                 else -> {}
             }
         })

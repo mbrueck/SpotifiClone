@@ -37,4 +37,13 @@
         android:name="com.example.musicplayeritunessample.ui.MusicPlayerFragment"
         android:label="fragment_music_player"
         tools:layout="@layout/fragment_music_player" />
+    <fragment
+        android:id="@+id/miniPlayerFragment"
+        android:name="com.example.musicplayeritunessample.ui.MiniPlayerFragment"
+        android:label="fragment_mini_player"
+        tools:layout="@layout/fragment_mini_player" >
+        <action
+            android:id="@+id/action_miniPlayerFragment_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
 </navigation>

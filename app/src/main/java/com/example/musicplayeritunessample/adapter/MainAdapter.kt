@@ -39,7 +39,6 @@ class MainAdapter(
 
         holder.binding.tvArtistName.text = artist.artistName
         holder.binding.ivImageMain.load(imgUri) {
-
             error(R.drawable.ic_broken_image)
             transformations(RoundedCornersTransformation(10f))
         }

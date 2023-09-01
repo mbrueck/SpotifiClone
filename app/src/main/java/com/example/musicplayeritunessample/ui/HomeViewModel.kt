@@ -14,13 +14,13 @@ import com.example.musicplayeritunessample.data.model.AppRepository
 import com.example.musicplayeritunessample.data.model.Track
 import kotlinx.coroutines.launch
 
+private val TAG = "HOMEVIEWMODEL"
+
 enum class MediaStatus { LOADING, READY, PLAYING, FINISHED }
 class HomeViewModel(application: Application) :
     AndroidViewModel(application) {
 
     private val database = getDatabase(application)
-
-    //
     val repository = AppRepository(TrackApi, database)
     val artistList = repository.search
     val mainSideList = repository.trackList
@@ -45,7 +45,7 @@ class HomeViewModel(application: Application) :
     val inputText = MutableLiveData<String>()
 
     //    Live Data zur gelikten Songs
-    private var _likedSongs = MutableLiveData<MutableList<Track>>(mutableListOf())
+//    private var _likedSongs = MutableLiveData<MutableList<Track>>(mutableListOf())
     val likedSongs = repository.likedSongList
 
 
@@ -66,12 +66,16 @@ class HomeViewModel(application: Application) :
 
     fun likedSong() {
         viewModelScope.launch {
+            _currentArtist.value?.liked = true
+            _currentArtist.value?.disliked = false
             repository.insert(_currentArtist.value!!)
         }
     }
 
     fun disliked() {
         viewModelScope.launch {
+            _currentArtist.value?.disliked = true
+            _currentArtist.value?.liked = false
             _currentArtist.value?.let { repository.delete(it.id) }
         }
     }
@@ -81,6 +85,18 @@ class HomeViewModel(application: Application) :
         viewModelScope.launch {
             repository.getSearch(term)
             Log.d("Result Search", "Data : $term")
+        }
+    }
+
+
+    fun getTrackList() {
+        val term: String = genreMap.keys.random()
+        _genre.value = term
+        val id: String = genreMap[term]!!
+        viewModelScope.launch {
+            repository.getTrackList("BC", id)
+            Log.d("Result Tracklist", "Data : $term")
+
         }
     }
 
@@ -97,17 +113,6 @@ class HomeViewModel(application: Application) :
         "Alternative" to "20"
     )
 
-    fun getTrackList() {
-        val term: String = genreMap.keys.random()
-        _genre.value = term
-        val id: String = genreMap[term]!!
-        viewModelScope.launch {
-            repository.getTrackList("ab", id)
-            Log.d("Result Tracklist", "Data : $term")
-
-        }
-    }
-
     var updateSongTime = object : Runnable {
         override fun run() {
             _songTime.value = mediaPlayer.currentPosition
@@ -123,29 +128,53 @@ class HomeViewModel(application: Application) :
             _playerStatus.value = MediaStatus.PLAYING
             updateSongTime.run()
         })
-
         mediaPlayer.setOnCompletionListener {
             _playerStatus.value = MediaStatus.FINISHED
         }
     }
 
-    fun playSong() {
+    fun startNewSong() {
         mediaPlayer.reset()
-        _selectedSong.value = _currentArtist.value
-        if (_playerStatus.value == MediaStatus.PLAYING) {
-//            mediaPlayer.reset()
-            mediaPlayer = MediaPlayer()
+        try {
+            _selectedSong.value = _currentArtist.value
+            if (_playerStatus.value == MediaStatus.PLAYING) {
+                mediaPlayer = MediaPlayer()
+            }
+            setupMediaPlayer()
+            _playerStatus.value = MediaStatus.LOADING
+            mediaPlayer.setDataSource(selectedSong.value?.previewUrl)
+            mediaPlayer.prepareAsync()
+        } catch (e: Exception) {
+            Log.e("MediaPLayer", "Error, player not initialised :$e ")
         }
-        setupMediaPlayer()
-        _playerStatus.value = MediaStatus.LOADING
-        mediaPlayer.setDataSource(selectedSong.value?.previewUrl)
-        mediaPlayer.prepareAsync()
     }
 
-    fun breakSong() {
-        if (_playerStatus.value == MediaStatus.PLAYING) {
-            mediaPlayer.pause()
-            _playerStatus.value = MediaStatus.READY
+    fun playOrPauseSong() {
+        try {
+            if (_playerStatus.value == MediaStatus.PLAYING) {
+                mediaPlayer.pause()
+                _playerStatus.value = MediaStatus.READY
+            } else {
+                mediaPlayer.start()
+                _playerStatus.value = MediaStatus.PLAYING
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "play ore pause :$e")
+        }
+    }
+    fun skipForward() {
+        try {
+            mediaPlayer.seekTo(mediaPlayer.currentPosition + 5000)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error, skip forwoard :$e")
+        }
+    }
+    fun skipBackward() {
+        try {
+            mediaPlayer.seekTo(mediaPlayer.currentPosition - 5000)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error, skip backwoard :$e")
+
         }
     }
 }

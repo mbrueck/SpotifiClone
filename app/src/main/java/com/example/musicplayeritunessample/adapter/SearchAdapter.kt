@@ -25,8 +25,7 @@ class SearchAdapter(
 
     private lateinit var binding: ListItemTrackBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
-        binding =
-            ListItemTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ListItemTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListItemViewHolder(binding)
 
     }
